@@ -1,0 +1,30 @@
+name: github pages
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: windows-latest #windows-2019 #ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      #- name: Build site
+      #  run: docfx docfx.json
+      # https://github.com/marketplace/actions/docfx-action
+      - name: docfx-action
+        uses: nikeee/docfx-action@v0.1.0
+        with:
+          args: docfx.json
+      
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3.6.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          #deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          #personal_token: ${{ secrets.PERSONAL_TOKEN }}
+          #publish_dir: ./public
+          #publish_branch: master  # default: gh-pages
